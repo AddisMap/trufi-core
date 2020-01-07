@@ -27,6 +27,7 @@ class TrufiDrawer extends StatefulWidget {
 
 class TrufiDrawerState extends State<TrufiDrawer> {
   AssetImage bgImage;
+  final GlobalKey appShareButtonKey = GlobalKey(debugLabel: "appShareButtonKey");
 
   @override
   void initState() {
@@ -227,9 +228,15 @@ class TrufiDrawerState extends State<TrufiDrawer> {
     );
   }
 
+  Rect getAppShareButtonOrigin() {
+    final RenderBox box = appShareButtonKey.currentContext.findRenderObject();
+    return box.localToGlobal(Offset.zero) & box.size;
+  }
+  
   Widget _buildAppShareButton(BuildContext context, String url) {
     final localization = TrufiLocalizations.of(context).localization;
     return Container(
+      key: appShareButtonKey,
       child: ListTile(
         leading: Icon(Icons.share, color: Colors.grey),
         title: Text(
@@ -237,11 +244,9 @@ class TrufiDrawerState extends State<TrufiDrawer> {
           style: TextStyle(color: Theme.of(context).textTheme.body2.color),
         ),
         onTap: () {
-          try {
-            Share.share(localization.shareAppText(url));
-          } on PlatformException catch (exception) {
-            _showErrorAlert('No app seems to be available for sharing. Just tell your friends :-)');
-          }
+          Share.share(localization.shareAppText(url),
+            sharePositionOrigin: getAppShareButtonOrigin(),
+          );
         },
       ),
     );
