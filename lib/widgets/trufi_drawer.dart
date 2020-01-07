@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:app_review/app_review.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:share/share.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -13,6 +14,7 @@ import '../pages/home.dart';
 import '../pages/team.dart';
 import '../trufi_configuration.dart';
 import '../trufi_localizations.dart';
+import '../widgets/alerts.dart';
 
 class TrufiDrawer extends StatefulWidget {
   TrufiDrawer(this.currentRoute);
@@ -235,7 +237,11 @@ class TrufiDrawerState extends State<TrufiDrawer> {
           style: TextStyle(color: Theme.of(context).textTheme.body2.color),
         ),
         onTap: () {
-          Share.share(localization.shareAppText(url));
+          try {
+            Share.share(localization.shareAppText(url));
+          } on PlatformException catch (exception) {
+            _showErrorAlert('No app seems to be available for sharing. Just tell your friends :-)');
+          }
         },
       ),
     );
@@ -251,6 +257,15 @@ class TrufiDrawerState extends State<TrufiDrawer> {
         ),
         onTap: () => launch(url),
       ),
+    );
+  }
+
+  void _showErrorAlert(String error) {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return buildErrorAlert(context: context, error: error);
+      },
     );
   }
 }
