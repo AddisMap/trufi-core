@@ -123,7 +123,9 @@ class TrufiMap extends StatelessWidget {
 
   String _urlTemplate() {
     // Stadia Maps source https://docs.stadiamaps.com/vector/
-    return 'https://d-makinamaps.makina-corpus.net/data/v3/{z}/{x}/{y}.pbf';
+    // return 'https://d-makinamaps.makina-corpus.net/data/v3/{z}/{x}/{y}.pbf';
+
+    return 'https://tiles.stadiamaps.com/data/openmaptiles/{z}/{x}/{y}.pbf?api_key=fill-your-api-key-here';
 
     // Mapbox source https://docs.mapbox.com/api/maps/vector-tiles/#example-request-retrieve-vector-tiles
     // return 'https://api.mapbox.com/v4/mapbox.mapbox-streets-v8/{z}/{x}/{y}.mvt?access_token=$apiKey',
