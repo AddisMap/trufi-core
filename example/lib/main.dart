@@ -18,7 +18,7 @@ void main() async {
           otpEndpoint: "https://cbba.trufi.dev/otp",
           otpGraphqlEndpoint: "https://cbba.trufi.dev/otp/index/graphql",
           mapConfiguration: MapConfiguration(
-            center: LatLng(-17.392600, -66.158787),
+            center: LatLng(48.864716, 2.349014),
           ),
           searchAssetPath: "assets/data/search.json",
           photonUrl: "https://cbba.trufi.dev/photon",

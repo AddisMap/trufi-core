@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_map/plugin_api.dart';
+import 'package:vector_map_tiles/vector_map_tiles.dart';
+import 'package:vector_tile_renderer/vector_tile_renderer.dart';
 import 'package:latlong2/latlong.dart';
 
 import 'package:trufi_core/base/blocs/map_configuration/map_configuration_cubit.dart';
@@ -18,6 +20,7 @@ class TrufiMap extends StatelessWidget {
   final TapCallback? onTap;
   final LongPressCallback? onLongPress;
   final PositionCallback? onPositionChanged;
+
   const TrufiMap({
     Key? key,
     required this.trufiMapController,
@@ -48,8 +51,9 @@ class TrufiMap extends StatelessWidget {
                       InteractiveFlag.pinchZoom |
                       InteractiveFlag.doubleTapZoom,
                   minZoom: mapConfiguratiom.onlineMinZoom,
-                  maxZoom: mapConfiguratiom.onlineMaxZoom,
+                  maxZoom: 16,
                   zoom: mapConfiguratiom.onlineZoom,
+                  plugins: [VectorMapTilesPlugin()],
                   onTap: onTap,
                   onLongPress: onLongPress,
                   center: mapConfiguratiom.center,
@@ -65,8 +69,10 @@ class TrufiMap extends StatelessWidget {
                   },
                 ),
                 layers: [
-                  ...currentMapType.currentMapTileProvider
-                      .buildTileLayerOptions(),
+                  VectorTileLayerOptions(
+                      theme: _mapTheme(context),
+                      tileProviders: TileProviders(
+                          {'openmaptiles': _cachingTileProvider(_urlTemplate())})),
                   mapConfiguratiom.markersConfiguration
                       .buildYourLocationMarkerLayerOptions(currentLocation),
                   ...layerOptionsBuilder(context)
@@ -96,4 +102,31 @@ class TrufiMap extends StatelessWidget {
       ],
     );
   }
+
+  VectorTileProvider _cachingTileProvider(String urlTemplate) {
+    return MemoryCacheVectorTileProvider(
+        delegate: NetworkVectorTileProvider(
+            urlTemplate: urlTemplate,
+            // this is the maximum zoom of the provider, not the
+            // maximum of the map. vector tiles are rendered
+            // to larger sizes to support higher zoom levels
+            maximumZoom: 14),
+        maxSizeBytes: 1024 * 1024 * 2);
+  }
+
+  _mapTheme(BuildContext context) {
+    // maps are rendered using themes
+    // to provide a dark theme do something like this:
+    // if (MediaQuery.of(context).platformBrightness == Brightness.dark) return myDarkTheme();
+    return ProvidedThemes.lightTheme();
+  }
+
+  String _urlTemplate() {
+    // Stadia Maps source https://docs.stadiamaps.com/vector/
+    return 'https://d-makinamaps.makina-corpus.net/data/v3/{z}/{x}/{y}.pbf';
+
+    // Mapbox source https://docs.mapbox.com/api/maps/vector-tiles/#example-request-retrieve-vector-tiles
+    // return 'https://api.mapbox.com/v4/mapbox.mapbox-streets-v8/{z}/{x}/{y}.mvt?access_token=$apiKey',
+  }
+
 }

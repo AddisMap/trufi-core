@@ -36,6 +36,7 @@ dependencies:
   cupertino_icons: ^1.0.2
   trufi_core:
     path: ../
+  vector_map_tiles: ^2.0.1
     
 dev_dependencies:
   flutter_test:
