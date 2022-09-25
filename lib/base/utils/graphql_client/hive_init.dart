@@ -8,7 +8,6 @@ import 'package:path/path.dart' show join;
 import 'package:graphql/client.dart' show HiveStore;
 import 'package:trufi_core/base/blocs/localization/trufi_localization_cubit.dart';
 import 'package:trufi_core/base/blocs/map_tile_provider/map_tile_local_storage.dart';
-import 'package:trufi_core/base/blocs/providers/app_review_provider.dart';
 import 'package:trufi_core/base/blocs/theme/theme_cubit.dart';
 import 'package:trufi_core/base/pages/home/repository/hive_local_repository.dart';
 import 'package:trufi_core/base/pages/saved_places/repository/local_repository/hive_local_repository.dart';
@@ -41,7 +40,6 @@ Future<void> initHiveForFlutter({
 }
 
 const listPathsHive = [
-  AppReviewProviderHiveLocalRepository.path,
   TrufiLocalizationHiveLocalRepository.path,
   TrufiBaseThemeHiveLocalRepository.path,
   MapRouteHiveLocalRepository.path,

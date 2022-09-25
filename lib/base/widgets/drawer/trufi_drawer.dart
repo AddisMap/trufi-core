@@ -1,6 +1,5 @@
 import 'dart:io';
 
-import 'package:app_review/app_review.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
@@ -90,16 +89,6 @@ class TrufiDrawer extends StatelessWidget {
                           ),
                           Row(
                             children: [
-                              if (!kIsWeb && !Platform.isAndroid)
-                                IconButton(
-                                  onPressed: () async {
-                                    await AppReview.writeReview;
-                                  },
-                                  icon: const Icon(
-                                    Icons.star_rate,
-                                    color: Colors.white,
-                                  ),
-                                ),
                               IconButton(
                                 onPressed: () {
                                   final localization =
