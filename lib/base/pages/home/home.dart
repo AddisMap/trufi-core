@@ -4,7 +4,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:routemaster/routemaster.dart';
 import 'package:trufi_core/base/blocs/map_configuration/map_configuration_cubit.dart';
 
-import 'package:trufi_core/base/blocs/providers/app_review_provider.dart';
 import 'package:trufi_core/base/blocs/theme/theme_cubit.dart';
 import 'package:trufi_core/base/models/map_provider/trufi_map_definition.dart';
 import 'package:trufi_core/base/models/trufi_latlng.dart';
@@ -198,7 +197,6 @@ class _HomePageState extends State<HomePage>
       context: context,
       onExecute: () => mapRouteCubit.fetchPlan(numItinerary: numItinerary),
       onFinish: (_) {
-        AppReviewProvider().incrementReviewWorthyActions();
       },
     );
   }
@@ -240,12 +238,5 @@ class _HomePageState extends State<HomePage>
       position: position,
       isOrigin: isOrigin,
     );
-  }
-
-  @override
-  void didChangeAppLifecycleState(AppLifecycleState state) {
-    if (state == AppLifecycleState.resumed) {
-      AppReviewProvider().reviewApp(context);
-    }
   }
 }

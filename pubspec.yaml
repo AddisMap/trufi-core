@@ -9,7 +9,6 @@ environment:
   flutter: ">=1.17.0"
 
 dependencies:
-  app_review: ^2.1.1+1
   async_executor: ^0.0.2
   flare_flutter: ^3.0.2
   flutter:

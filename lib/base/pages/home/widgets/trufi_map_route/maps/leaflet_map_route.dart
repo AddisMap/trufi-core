@@ -5,7 +5,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_map/plugin_api.dart';
 
 import 'package:trufi_core/base/blocs/map_configuration/map_configuration_cubit.dart';
-import 'package:trufi_core/base/blocs/providers/app_review_provider.dart';
 import 'package:trufi_core/base/models/journey_plan/plan.dart';
 import 'package:trufi_core/base/models/trufi_latlng.dart';
 import 'package:trufi_core/base/pages/home/map_route_cubit/map_route_cubit.dart';
@@ -186,7 +185,6 @@ class _LeafletMapRouteState extends State<LeafletMapRoute>
       context: context,
       onExecute: mapRouteCubit.fetchPlan,
       onFinish: (_) {
-        AppReviewProvider().incrementReviewWorthyActions();
       },
     );
   }
