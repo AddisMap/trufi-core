@@ -28,6 +28,7 @@ class TransportDash extends StatelessWidget {
         if (showBeforeLine)
           DashLinePlace(
             date: leg.startTimeString,
+            arrivalAt: DateTime.now().add(Duration(minutes: 30)),
             location: leg.fromPlace.name,
             color: leg.primaryColor,
           ),
@@ -46,6 +47,7 @@ class TransportDash extends StatelessWidget {
         if (showAfterLine)
           DashLinePlace(
             date: leg.endTimeString.toString(),
+            arrivalAt: DateTime.now().add(Duration(minutes: 30)),
             location: leg.toPlace.name.toString(),
             color: leg.primaryColor,
           ),
@@ -154,6 +156,7 @@ class SeparatorPlace extends StatelessWidget {
 class DashLinePlace extends StatelessWidget {
   final String date;
   final String location;
+  final DateTime? arrivalAt;
   final Widget? child;
   final Color? color;
 
@@ -163,6 +166,7 @@ class DashLinePlace extends StatelessWidget {
     required this.location,
     this.child,
     this.color,
+    this.arrivalAt
   }) : super(key: key);
 
   @override
@@ -216,6 +220,27 @@ class DashLinePlace extends StatelessWidget {
               ),
             ),
           ),
+          if (arrivalAt != null)
+            Row(
+            children: [
+              Container(
+                margin: const EdgeInsets.symmetric(horizontal: 3),
+                child: Text(
+                  (arrivalAt!.difference(DateTime.now()).inMinutes.toString() + " min " + (arrivalAt!.difference(DateTime.now()).inMinutes % 60).toString()) + " sec",
+                  style: const TextStyle(
+                    fontSize: 14,
+                    fontWeight: FontWeight.w600,
+                    color: Colors.orange,
+                  ),
+                ),
+              ),
+              Icon(
+                Icons.share_arrival_time,
+                size: 18,
+                color: Colors.orange,
+              ),
+            ]
+          ) ,
         ],
       ),
     );
