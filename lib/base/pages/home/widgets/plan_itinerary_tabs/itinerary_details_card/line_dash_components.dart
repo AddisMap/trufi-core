@@ -28,7 +28,7 @@ class TransportDash extends StatelessWidget {
         if (showBeforeLine)
           DashLinePlace(
             date: leg.startTimeString,
-            arrivalAt: DateTime.now().add(Duration(minutes: 30)),
+            arrivalAt: leg.arrivalDelay != null ? leg.startTime.add(new Duration(seconds: leg.arrivalDelay!)) : null,
             location: leg.fromPlace.name,
             color: leg.primaryColor,
           ),
@@ -47,7 +47,6 @@ class TransportDash extends StatelessWidget {
         if (showAfterLine)
           DashLinePlace(
             date: leg.endTimeString.toString(),
-            arrivalAt: DateTime.now().add(Duration(minutes: 30)),
             location: leg.toPlace.name.toString(),
             color: leg.primaryColor,
           ),

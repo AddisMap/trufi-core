@@ -13,6 +13,7 @@ class Leg extends Equatable {
   static const _fromPlace = "from";
   static const _startTime = "startTime";
   static const _endTime = "endTime";
+  static const _arrivalDelay = "arrivalDelay";
   static const _intermediatePlaces = "intermediatePlaces";
   static const _transitLeg = "transitLeg";
 
@@ -28,6 +29,7 @@ class Leg extends Equatable {
   final Place fromPlace;
   final DateTime startTime;
   final DateTime endTime;
+  final int? arrivalDelay;
   final List<Place>? intermediatePlaces;
   final bool transitLeg;
   final List<TrufiLatLng> accumulatedPoints;
@@ -45,6 +47,7 @@ class Leg extends Equatable {
     required this.fromPlace,
     required this.startTime,
     required this.endTime,
+    this.arrivalDelay,
     required this.intermediatePlaces,
     required this.transitLeg,
     this.accumulatedPoints = const [],
@@ -77,6 +80,7 @@ class Leg extends Equatable {
           int.tryParse(json[_startTime].toString()) ?? 0),
       endTime: DateTime.fromMillisecondsSinceEpoch(
           int.tryParse(json[_endTime].toString()) ?? 0),
+      arrivalDelay: json[_arrivalDelay],
       intermediatePlaces: json[_intermediatePlaces] != null
           ? List<Place>.from(
               (json[_intermediatePlaces] as List<dynamic>).map(
@@ -102,6 +106,7 @@ class Leg extends Equatable {
       _fromPlace: fromPlace.toJson(),
       _startTime: startTime.millisecondsSinceEpoch,
       _endTime: endTime.millisecondsSinceEpoch,
+      _arrivalDelay: arrivalDelay,
       _intermediatePlaces:
           intermediatePlaces?.map((itinerary) => itinerary.toJson()).toList(),
       _transitLeg: transitLeg,
@@ -121,6 +126,7 @@ class Leg extends Equatable {
     Place? fromPlace,
     DateTime? startTime,
     DateTime? endTime,
+    int? arrivalDelay,
     bool? rentedBike,
     bool? intermediatePlace,
     bool? transitLeg,
@@ -141,6 +147,7 @@ class Leg extends Equatable {
       fromPlace: fromPlace ?? this.fromPlace,
       startTime: startTime ?? this.startTime,
       endTime: endTime ?? this.endTime,
+      arrivalDelay: arrivalDelay ?? this.arrivalDelay,
       transitLeg: transitLeg ?? this.transitLeg,
       intermediatePlaces: intermediatePlaces ?? this.intermediatePlaces,
       accumulatedPoints: accumulatedPoints ?? this.accumulatedPoints,
@@ -194,6 +201,7 @@ class Leg extends Equatable {
         fromPlace,
         startTime,
         endTime,
+        arrivalDelay,
         intermediatePlaces,
         transitLeg,
         accumulatedPoints,
