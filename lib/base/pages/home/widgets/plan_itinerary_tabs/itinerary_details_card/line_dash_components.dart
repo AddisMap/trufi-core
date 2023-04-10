@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:timer_count_down/timer_count_down.dart';
 
 import 'package:trufi_core/base/models/enums/transport_mode.dart';
 import 'package:trufi_core/base/models/journey_plan/plan.dart';
@@ -28,6 +29,7 @@ class TransportDash extends StatelessWidget {
         if (showBeforeLine)
           DashLinePlace(
             date: leg.startTimeString,
+            arrivalAt: leg.arrivalDelay != null ? leg.startTime.add(new Duration(seconds: leg.arrivalDelay!)) : null,
             location: leg.fromPlace.name,
             color: leg.primaryColor,
           ),
@@ -46,6 +48,7 @@ class TransportDash extends StatelessWidget {
         if (showAfterLine)
           DashLinePlace(
             date: leg.endTimeString.toString(),
+            arrivalAt: leg.arrivalDelay != null ? leg.endTime.add(new Duration(seconds: leg.arrivalDelay!)) : null,
             location: leg.toPlace.name.toString(),
             color: leg.primaryColor,
           ),
@@ -154,6 +157,7 @@ class SeparatorPlace extends StatelessWidget {
 class DashLinePlace extends StatelessWidget {
   final String date;
   final String location;
+  final DateTime? arrivalAt;
   final Widget? child;
   final Color? color;
 
@@ -163,6 +167,7 @@ class DashLinePlace extends StatelessWidget {
     required this.location,
     this.child,
     this.color,
+    this.arrivalAt
   }) : super(key: key);
 
   @override
@@ -216,6 +221,32 @@ class DashLinePlace extends StatelessWidget {
               ),
             ),
           ),
+          if (arrivalAt != null)
+            Row(
+            children: [
+              Container(
+                margin: const EdgeInsets.symmetric(horizontal: 3),
+                child:
+                  Countdown(
+                    seconds: 3600,
+                    build: (BuildContext context, double time) => Text(
+                        (arrivalAt!.difference(DateTime.now()).inMinutes.toString() + " min " + (arrivalAt!.difference(DateTime.now()).inSeconds % 60).toString().padLeft(2, '0')) + " sec",
+                        style: const TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.w600,
+                          color: Colors.orange,
+                          ),
+                    ),
+                    interval: Duration(milliseconds: 500),
+                  ),
+              ),
+              Icon(
+                Icons.share_arrival_time,
+                size: 18,
+                color: Colors.orange,
+              ),
+            ]
+          ) ,
         ],
       ),
     );
