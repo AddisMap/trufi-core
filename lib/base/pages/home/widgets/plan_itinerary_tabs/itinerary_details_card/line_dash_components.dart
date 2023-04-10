@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:timer_count_down/timer_count_down.dart';
 
 import 'package:trufi_core/base/models/enums/transport_mode.dart';
 import 'package:trufi_core/base/models/journey_plan/plan.dart';
@@ -47,6 +48,7 @@ class TransportDash extends StatelessWidget {
         if (showAfterLine)
           DashLinePlace(
             date: leg.endTimeString.toString(),
+            arrivalAt: leg.arrivalDelay != null ? leg.endTime.add(new Duration(seconds: leg.arrivalDelay!)) : null,
             location: leg.toPlace.name.toString(),
             color: leg.primaryColor,
           ),
@@ -224,14 +226,19 @@ class DashLinePlace extends StatelessWidget {
             children: [
               Container(
                 margin: const EdgeInsets.symmetric(horizontal: 3),
-                child: Text(
-                  (arrivalAt!.difference(DateTime.now()).inMinutes.toString() + " min " + (arrivalAt!.difference(DateTime.now()).inMinutes % 60).toString()) + " sec",
-                  style: const TextStyle(
-                    fontSize: 14,
-                    fontWeight: FontWeight.w600,
-                    color: Colors.orange,
+                child:
+                  Countdown(
+                    seconds: 3600,
+                    build: (BuildContext context, double time) => Text(
+                        (arrivalAt!.difference(DateTime.now()).inMinutes.toString() + " min " + (arrivalAt!.difference(DateTime.now()).inSeconds % 60).toString().padLeft(2, '0')) + " sec",
+                        style: const TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.w600,
+                          color: Colors.orange,
+                          ),
+                    ),
+                    interval: Duration(milliseconds: 500),
                   ),
-                ),
               ),
               Icon(
                 Icons.share_arrival_time,

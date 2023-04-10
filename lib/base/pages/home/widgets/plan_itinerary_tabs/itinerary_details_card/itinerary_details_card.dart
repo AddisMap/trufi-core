@@ -67,6 +67,7 @@ class ItineraryDetailsCard extends StatelessWidget {
                         location:
                             mapRouteState.fromPlace?.displayName(localization) ??
                                 '',
+                        arrivalAt: itineraryLeg.arrivalDelay != null ? itineraryLeg.startTime.add(new Duration(seconds: itineraryLeg.arrivalDelay!)) : null,
                         child: Stack(
                           clipBehavior: Clip.none,
                           children: [

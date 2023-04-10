@@ -42,7 +42,7 @@ class RestRequestPlanService implements RequestPlanService {
       "fromPlace": from.toString(),
       "toPlace": to.toString(),
       "date": _todayMonthDayYear(),
-      "time": _nowHourMinute()
+      "time": "20:00", // _nowHourMinute(),
       "numItineraries": "5",
       "mode": _parseTransportModes(transportModes),
     });

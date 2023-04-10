@@ -35,7 +35,8 @@ dependencies:
   uni_links: ^0.5.1
   # Workaround fix version errors for device_info_plus
   device_info_plus_platform_interface: '2.3.0+1'
-  
+  timer_count_down: ^2.2.0
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
