@@ -226,6 +226,9 @@ class TrufiBaseLocalizationAm extends TrufiBaseLocalization {
   String get noRouteErrorActionShowCarRoute => 'የመኪና መስመሩን አሳይ';
 
   @override
+  String get notShowAgain => 'እንደገና አታሳይ';
+
+  @override
   String get readOurBlog => 'ፅሁፎቻችንን ያንብቡ';
 
   @override
