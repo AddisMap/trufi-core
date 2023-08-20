@@ -41,9 +41,10 @@ class GPSLocationProvider {
           _locationStreamSubscription ??= Geolocator.getPositionStream(
               locationSettings: const LocationSettings(
             accuracy: LocationAccuracy.high,
-            distanceFilter: 10,
+            distanceFilter: 5,
           )).listen((position) {
-            _streamLocation.add(TrufiLatLng(position.latitude, position.longitude));
+            _streamLocation
+                .add(TrufiLatLng(position.latitude, position.longitude));
           });
         }
       });
@@ -68,22 +69,23 @@ class GPSLocationProvider {
     _locationStreamSubscription ??= Geolocator.getPositionStream(
         locationSettings: const LocationSettings(
       accuracy: LocationAccuracy.high,
-      distanceFilter: 10,
+      distanceFilter: 5,
     )).listen((position) {
       _streamLocation.add(TrufiLatLng(position.latitude, position.longitude));
     });
   }
 
-  Future<void> startLocation(BuildContext context) async {
+  Future<void> startLocation(BuildContext context, bool mounted) async {
     final LocationPermission status = await Geolocator.checkPermission();
     // check GPS Permision Platform(Web, Android and iOS)
+    if (!mounted) return;
     await _checkGPSPermisionPlatform(context, status);
 
     // listen current location
     _locationStreamSubscription ??= Geolocator.getPositionStream(
         locationSettings: const LocationSettings(
       accuracy: LocationAccuracy.high,
-      distanceFilter: 10,
+      distanceFilter: 5,
     )).listen((position) {
       _streamLocation.add(TrufiLatLng(position.latitude, position.longitude));
     });

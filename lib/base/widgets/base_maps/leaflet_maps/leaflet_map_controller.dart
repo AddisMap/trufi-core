@@ -35,9 +35,10 @@ class LeafletMapController extends Cubit<LeafletMapState>
   Map<Itinerary, List<PolylineWithMarkers>> itineraries = {};
   LatLngBounds get selectedBounds => _selectedBounds;
   LatLngBounds _selectedBounds = LatLngBounds();
+  final Completer<Null> readyCompleter = Completer<Null>();
 
   @override
-  Future<Null> get onReady => mapController.onReady;
+  Future<Null> get onReady => readyCompleter.future;
 
   @override
   void cleanMap() {
@@ -99,41 +100,39 @@ class LeafletMapController extends Cubit<LeafletMapState>
       selectedItinerary: selectedItinerary,
       onTap: onTap,
     );
-    final _unselectedMarkers = <Marker>[];
-    final _unselectedPolylines = <Polyline>[];
-    final _selectedMarkers = <Marker>[];
-    final _selectedPolylines = <Polyline>[];
-    final _allPolylines = <Polyline>[];
+    final unselectedMarkers = <Marker>[];
+    final unselectedPolylines = <Polyline>[];
+    final selectedMarkers = <Marker>[];
+    final selectedPolylines = <Polyline>[];
+    final allPolylines = <Polyline>[];
     itineraries.forEach((itinerary, polylinesWithMarker) {
       final bool isSelected = itinerary == selectedItinerary;
       for (final polylineWithMarker in polylinesWithMarker) {
         for (final marker in polylineWithMarker.markers) {
           if (isSelected) {
-            _selectedMarkers.add(marker);
+            selectedMarkers.add(marker);
             _selectedBounds.extend(marker.point);
           } else {
-            _unselectedMarkers.add(marker);
+            unselectedMarkers.add(marker);
           }
         }
         if (isSelected) {
-          _selectedPolylines.add(polylineWithMarker.polyline);
+          selectedPolylines.add(polylineWithMarker.polyline);
           for (final point in polylineWithMarker.polyline.points) {
             _selectedBounds.extend(point);
           }
         } else {
-          _unselectedPolylines.add(polylineWithMarker.polyline);
+          unselectedPolylines.add(polylineWithMarker.polyline);
         }
-        _allPolylines.add(polylineWithMarker.polyline);
+        allPolylines.add(polylineWithMarker.polyline);
       }
     });
     emit(
       state.copyWith(
-        unselectedMarkersLayer: MarkerLayerOptions(markers: _unselectedMarkers),
-        unselectedPolylinesLayer:
-            PolylineLayerOptions(polylines: _unselectedPolylines),
-        selectedMarkersLayer: MarkerLayerOptions(markers: _selectedMarkers),
-        selectedPolylinesLayer:
-            PolylineLayerOptions(polylines: _selectedPolylines),
+        unselectedMarkersLayer: MarkerLayer(markers: unselectedMarkers),
+        unselectedPolylinesLayer: PolylineLayer(polylines: unselectedPolylines),
+        selectedMarkersLayer: MarkerLayer(markers: selectedMarkers),
+        selectedPolylinesLayer: PolylineLayer(polylines: selectedPolylines),
       ),
     );
     moveCurrentBounds(tickerProvider: tickerProvider);
@@ -152,6 +151,11 @@ class LeafletMapController extends Cubit<LeafletMapState>
         final bool isSelected = itinerary == selectedItinerary;
 
         final List<Leg> compressedLegs = itinerary.compressLegs;
+
+          // TODO Implement a boolean to configure if the backend has a server or not
+          // Implement for otpServer without route color configuration
+        bool isPrimary = false;
+        
         for (int i = 0; i < compressedLegs.length; i++) {
           final Leg leg = compressedLegs[i];
           // Polyline
@@ -159,11 +163,18 @@ class LeafletMapController extends Cubit<LeafletMapState>
               ? leg.accumulatedPoints
               : decodePolyline(leg.points);
 
-          final color = isSelected
+          Color color = isSelected
               ? leg.transitLeg
                   ? leg.backgroundColor
                   : leg.transportMode.color
               : Colors.grey;
+
+          if (isSelected && leg.transitLeg && isPrimary) {
+            color = Colors.green;
+            isPrimary = !isPrimary;
+          } else if (isSelected && leg.transitLeg) {
+            isPrimary = !isPrimary;
+          }
 
           final Polyline polyline = Polyline(
             points: TrufiLatLng.toListLatLng(points),
@@ -193,6 +204,16 @@ class LeafletMapController extends Cubit<LeafletMapState>
                 onTap: () => onTap(itinerary),
               ),
             );
+          }
+
+          if (isSelected &&
+              leg.intermediatePlaces != null &&
+              leg.intermediatePlaces!.isNotEmpty) {
+            for (Place stop in leg.intermediatePlaces!) {
+              markers.add(
+                buildStopMarker(TrufiLatLng(stop.lat, stop.lon)),
+              );
+            }
           }
           polylinesWithMarkers.add(PolylineWithMarkers(polyline, markers));
         }

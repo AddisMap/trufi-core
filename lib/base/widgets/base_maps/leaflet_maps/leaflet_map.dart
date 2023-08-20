@@ -10,9 +10,9 @@ import 'package:trufi_core/base/widgets/base_maps/leaflet_maps/leaflet_map_contr
 import 'package:trufi_core/base/widgets/base_maps/leaflet_maps/utils/leaflet_map_utils.dart';
 import 'package:trufi_core/base/widgets/base_maps/map_buttons/your_location_button.dart';
 
-typedef LayerOptionsBuilder = List<LayerOptions> Function(BuildContext context);
+typedef LayerOptionsBuilder = List<Widget> Function(BuildContext context);
 
-class LeafletMap extends StatelessWidget {
+class LeafletMap extends StatefulWidget {
   final LeafletMapController trufiMapController;
   final LayerOptionsBuilder layerOptionsBuilder;
   final Widget? floatingActionButtons;
@@ -32,6 +32,12 @@ class LeafletMap extends StatelessWidget {
   }) : super(key: key);
 
   @override
+  State<LeafletMap> createState() => _LeafletMapState();
+}
+
+class _LeafletMapState extends State<LeafletMap> {
+  bool isTrackingPosition = false;
+  @override
   Widget build(BuildContext context) {
     final mapConfiguratiom = context.read<MapConfigurationCubit>().state;
     final currentMapType = context.watch<MapTileProviderCubit>().state;
@@ -43,8 +49,9 @@ class LeafletMap extends StatelessWidget {
           builder: (context, snapshot) {
             final currentLocation = snapshot.data;
             return FlutterMap(
-              key: Key(trufiMapController.mapController.hashCode.toString()),
-              mapController: trufiMapController.mapController,
+              key: Key(
+                  widget.trufiMapController.mapController.hashCode.toString()),
+              mapController: widget.trufiMapController.mapController,
               options: MapOptions(
                 interactiveFlags: InteractiveFlag.drag |
                     InteractiveFlag.flingAnimation |
@@ -54,25 +61,35 @@ class LeafletMap extends StatelessWidget {
                 minZoom: mapConfiguratiom.onlineMinZoom,
                 maxZoom: mapConfiguratiom.onlineMaxZoom,
                 zoom: mapConfiguratiom.onlineZoom,
-                onTap: onTap,
-                onLongPress: onLongPress,
+                onTap: widget.onTap,
+                onLongPress: widget.onLongPress,
                 center: mapConfiguratiom.center.toLatLng(),
+                onMapReady: () {
+                  if (!widget.trufiMapController.readyCompleter.isCompleted) {
+                    widget.trufiMapController.readyCompleter.complete();
+                  }
+                },
                 onPositionChanged: (
                   MapPosition position,
                   bool hasGesture,
                 ) {
-                  if (onPositionChanged != null) {
+                  if (widget.onPositionChanged != null) {
                     Future.delayed(Duration.zero, () {
-                      onPositionChanged!(position, hasGesture);
+                      widget.onPositionChanged!(position, hasGesture);
+                    });
+                  }
+                  if (hasGesture && isTrackingPosition) {
+                    setState(() {
+                      isTrackingPosition = false;
                     });
                   }
                 },
               ),
-              layers: [
+              children: [
                 ...currentMapType.currentMapTileProvider
                     .buildTileLayerOptions(),
-                ...layerOptionsBuilder(context),
-                MarkerLayerOptions(markers: [
+                ...widget.layerOptionsBuilder(context),
+                MarkerLayer(markers: [
                   buildYourLocationMarker(
                     currentLocation,
                     mapConfiguratiom.markersConfiguration.yourLocationMarker,
@@ -83,16 +100,23 @@ class LeafletMap extends StatelessWidget {
           },
         ),
         Positioned(
-          bottom: bottomPaddingButtons ?? 16.0,
+          bottom: widget.bottomPaddingButtons ?? 16.0,
           right: 16.0,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.end,
             mainAxisAlignment: MainAxisAlignment.end,
             children: <Widget>[
-              if (floatingActionButtons != null) floatingActionButtons!,
+              if (widget.floatingActionButtons != null)
+                widget.floatingActionButtons!,
               const Padding(padding: EdgeInsets.all(4.0)),
               YourLocationButton(
-                trufiMapController: trufiMapController,
+                trufiMapController: widget.trufiMapController,
+                isTrackingPosition: isTrackingPosition,
+                setTracking: (isTraking) {
+                  setState(() {
+                    isTrackingPosition = isTraking;
+                  });
+                },
               ),
             ],
           ),

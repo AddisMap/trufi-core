@@ -4,6 +4,7 @@ import 'package:trufi_core/base/models/trufi_latlng.dart';
 import 'package:trufi_core/base/utils/certificates_letsencrypt_android.dart';
 import 'package:trufi_core/base/utils/graphql_client/hive_init.dart';
 import 'package:trufi_core/base/widgets/drawer/menu/social_media_item.dart';
+import 'package:trufi_core/base/widgets/screen/lifecycle_reactor_notification.dart';
 import 'package:trufi_core/default_values.dart';
 import 'package:trufi_core/trufi_core.dart';
 import 'package:trufi_core/trufi_router.dart';
@@ -17,13 +18,13 @@ void main() async {
       appNameTitle: 'ExampleApp',
       blocProviders: [
         ...DefaultValues.blocProviders(
-          otpEndpoint: "https://cbba.trufi.app/otp",
-          otpGraphqlEndpoint: "https://cbba.trufi.app/otp/index/graphql",
+          otpEndpoint: "https://bo-cbba.sa.api.trufi-association.org/otp",
+          otpGraphqlEndpoint: "https://bo-cbba.sa.api.trufi-association.org/otp/index/graphql",
           mapConfiguration: MapConfiguration(
             center: const TrufiLatLng(-17.392600, -66.158787),
           ),
           searchAssetPath: "assets/data/search.json",
-          photonUrl: "https://cbba.trufi.app/photon",
+          photonUrl: "https://bo-cbba.sa.api.trufi-association.org/photon",
         ),
       ],
       trufiRouter: TrufiRouter(
@@ -46,6 +47,10 @@ void main() async {
           shareBaseUri: Uri(
             scheme: "https",
             host: "trufi.example",
+          ),
+          lifecycleReactorHandler: LifecycleReactorNotifications(
+            url:
+                'https://bo-cbba.sa.api.trufi-association.org/static_files/notification.json',
           ),
         ),
       ),

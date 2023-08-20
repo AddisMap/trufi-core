@@ -529,6 +529,12 @@ abstract class TrufiBaseLocalization {
   /// **'Show route by car'**
   String get noRouteErrorActionShowCarRoute;
 
+  /// No description provided for @notShowAgain.
+  ///
+  /// In pt, this message translates to:
+  /// **'Não mostre novamente'**
+  String get notShowAgain;
+
   /// Website menu item
   ///
   /// In am, this message translates to:

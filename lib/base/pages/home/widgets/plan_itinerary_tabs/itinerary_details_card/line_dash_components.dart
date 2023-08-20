@@ -11,6 +11,7 @@ class TransportDash extends StatelessWidget {
   final bool showBeforeLine;
   final bool showAfterLine;
   final Function(TrufiLatLng) moveTo;
+  final Color? forcedColor;
 
   const TransportDash({
     Key? key,
@@ -18,6 +19,7 @@ class TransportDash extends StatelessWidget {
     required this.moveTo,
     this.showBeforeLine = true,
     this.showAfterLine = false,
+    this.forcedColor,
   }) : super(key: key);
 
   @override
@@ -29,25 +31,22 @@ class TransportDash extends StatelessWidget {
           DashLinePlace(
             date: leg.startTimeString,
             location: leg.fromPlace.name,
-            color: leg.primaryColor,
+            color: forcedColor ?? leg.primaryColor,
           ),
         SeparatorPlace(
-          color: leg.primaryColor,
-          child: GestureDetector(
-            onTap: () {
-              moveTo(TrufiLatLng(leg.fromPlace.lat, leg.fromPlace.lon));
-            },
-            child: TransitLeg(
-              leg: leg,
-            ),
-          ),
+          color: forcedColor ?? leg.primaryColor,
           leading: leg.transportMode.getImage(color: theme.iconTheme.color),
+          child: TransitLeg(
+            leg: leg,
+            moveTo: moveTo,
+            forcedColor: forcedColor,
+          ),
         ),
         if (showAfterLine)
           DashLinePlace(
             date: leg.endTimeString.toString(),
             location: leg.toPlace.name.toString(),
-            color: leg.primaryColor,
+            color: forcedColor ?? leg.primaryColor,
           ),
       ],
     );
@@ -70,9 +69,9 @@ class WalkDash extends StatelessWidget {
         SeparatorPlace(
           color: leg.primaryColor,
           height: 10,
+          leading: TransportMode.walk.getImage(color: theme.iconTheme.color),
           child: Text(
               '${localization.commonWalk} ${leg.durationLeg(localization)} (${leg.distanceString(localization)})'),
-          leading: TransportMode.walk.getImage(color: theme.iconTheme.color),
         ),
       ],
     );
