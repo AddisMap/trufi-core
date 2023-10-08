@@ -121,7 +121,7 @@ class AboutPage extends StatelessWidget {
                               onTap: () {
                                 // ignore: deprecated_member_use
                                 launch(
-                                    'https://www.trufi-association.org/?utm_source=$cityName-$countryName&utm_medium=${localizationA.localeName}&utm_campaign=in-app-referral&utm_content=trufi-association-website');
+                                    'https://www.addismaptransit.com/?utm_source=$cityName-$countryName&utm_medium=${localizationA.localeName}&utm_campaign=in-app-referral&utm_content=addismap-transit-website');
                               },
                             ),
                           ],
@@ -221,7 +221,7 @@ class AboutPage extends StatelessWidget {
                           ..onTap = () {
                             // ignore: deprecated_member_use
                             launch(
-                              'https://github.com/trufi-association/trufi-core.git',
+                              'https://github.com/AddisMap/AddisMapTransit.git',
                             );
                           },
                       ),
