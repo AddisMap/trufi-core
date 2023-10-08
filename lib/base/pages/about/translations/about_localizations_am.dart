@@ -5,17 +5,17 @@ class AboutLocalizationAm extends AboutLocalization {
   AboutLocalizationAm([String locale = 'am']) : super(locale);
 
   @override
-  String get aboutCollapseContent => 'AddisMap, Ethiopia collected hundreds of bus- and minibus-routes in Addis Ababa and added them to OpenStreetMap to make them usable for the general public. This app is based on the work of Trufi Association. Trufi Association is an international NGO that promotes easier access to public transport. Our apps help everyone find the best way to get from point A to point B within their cities.\n\nIn many cities there are no official maps, routes, apps or timetables. So we compile the available information, and sometimes even map routes from scratch working with local people who know the city. An easy-to-use transportation system contributes to greater sustainability, cleaner air and a better quality of life.';
+  String get aboutCollapseContent => 'አዲስ ማፕ, በአዲስ አበባ በመቶዎች የሚቆጠሩ የአውቶብስ እና ሚኒባስ መንገዶችን ሰብስቦ በOpenStreetMap ላይ በማከል ለህብረተሰቡ አገልግሎት እንዲውሉ አድርጓል። ይህ መተግበሪያ በት ማህበትሩፊ ስራ ላይ የተመሰረተ ነው። ይህ መተግበሪያ በTrufi ማህበር ስራ ላይ የተመሰረተ ነው። ትሩፊ ማህበር የህዝብ ማመላለሻን ቀላልነት እና ተደራሽነት የሚያበረታታ አለም አቀፍ መንግሥታዊ ያልሆነ ድርጅት ነው። የእኛ መተግበሪያ ሁሉም ሰው በከተማው ውስጥ በሚጓጓዝበት ወቅት ከነጥብ ሀ እስከ ነጥብ ፐ ለማግኘት ምርጡን መንገድ እንዲያገኙ ያግዛል። \n\nIn በብዙ ከተሞች ውስጥ ምንም አይነት ኦፊሴላዊ ካርታዎች፣ መስመሮች፣ መተግበሪያዎች ወይም የጊዜ ሰሌዳዎች የሉም። ስለዚህ ያለውን መረጃ እንሰበስባለን እና አንዳንዴም ከተማዋን ከሚያውቁ የአካባቢው ሰዎች ጋር በመስራት ከባዶ መንገዶችን በዲጂታል ካርታ እንዲቀናበሩ እናደርጋለን። መተግበሪያችን ለአጠቃቀም ቀላል የሆነ የመጓጓዣ ዘዴ ለበለጠ ዘላቂነት ላለው ለውጥ፣ ለንጹህ አየር ጠበቃ እና የተሻለ የህይወት ለመምራት ያግዛል።';
 
   @override
-  String get aboutCollapseContentFoot => 'We need mappers, developers, planners, testers, and many other hands.';
+  String get aboutCollapseContentFoot => 'ካርታ ሰሪዎች፣ ገንቢዎች፣ እቅድ አውጪዎች፣ ሞካሪዎች እና ሌሎች ብዙ እጆች እንፈልጋለን።';
 
   @override
-  String get aboutCollapseTitle => 'More About AddisMap and Trufi Association';
+  String get aboutCollapseTitle => 'ስለትሩፊ እና አዲስ ማፕ ተጨማሪ';
 
   @override
   String aboutContent(Object appName) {
-    return 'Need to go somewhere and don\'t know which minibus or bus to take?\nThe $appName App makes it easy!\n\nAddisMap is team from Ethiopia and beyond. We love minibuses and public transportation, and we want to make it easier to use for everyone. So we developed this app. We hope you enjoy it.';
+    return 'የሆነ ቦታ መሄድ አለብህ እህ (ሽ) የትኛውን ታክሲ ወይም አውቶቡስ መውሰድ እንዳለብህ (ሽ) አታውቅም (አታውቅቂ)?\n ይህንንም $appName ቀላል ያደርገዋል!\n\n የትሩፊ ማህበር የቦሊቪያ እና ከዚያ በላይ የሆነ ቡድን ነው። የህዝብ ማመላለሻን እንወዳለን፣ እና ለሁሉም ሰው ለመጠቀም ቀላል እንዲሆን እንፈልጋለን። ስለዚህ ይህን መተግበሪያ ገንብተናል። እንደምተደሰቱ እና ለናንተም ከፍተኛ ጠቀሜታ እንደሚሰጥ ተስፋ እናደርጋለን።';
   }
 
   @override
