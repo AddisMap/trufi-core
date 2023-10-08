@@ -8,7 +8,7 @@ class AboutLocalizationEn extends AboutLocalization {
   AboutLocalizationEn([String locale = 'en']) : super(locale);
 
   @override
-  String get aboutCollapseContent => 'AddisMap, Ethiopia collected hundreds of bus- and minibus-routes in Addis Ababa and added them to OpenStreetMap to make them usable for the general public. This app is based on the work for Trufi Association. Trufi Association is an international NGO that promotes easier access to public transport. Our apps help everyone find the best way to get from point A to point B within their cities.\n\nIn many cities there are no official maps, routes, apps or timetables. So we compile the available information, and sometimes even map routes from scratch working with local people who know the city. An easy-to-use transportation system contributes to greater sustainability, cleaner air and a better quality of life.';
+  String get aboutCollapseContent => 'AddisMap, Ethiopia collected hundreds of bus- and minibus-routes in Addis Ababa and added them to OpenStreetMap to make them usable for the general public. This app is based on the work of Trufi Association. Trufi Association is an international NGO that promotes easier access to public transport. Our apps help everyone find the best way to get from point A to point B within their cities.\n\nIn many cities there are no official maps, routes, apps or timetables. So we compile the available information, and sometimes even map routes from scratch working with local people who know the city. An easy-to-use transportation system contributes to greater sustainability, cleaner air and a better quality of life.';
 
   @override
   String get aboutCollapseContentFoot => 'We need mappers, developers, planners, testers, and many other hands.';
