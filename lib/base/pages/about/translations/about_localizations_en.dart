@@ -14,8 +14,8 @@ class AboutLocalizationEn extends AboutLocalization {
   String get aboutCollapseTitle => 'More About AddisMap and Trufi Association';
 
   @override
-  String aboutContent(Object appName) {
-    return 'Need to go somewhere and don\'t know which minibus or bus to take?\nThe $appName App makes it easy!\n\nAddisMap is team from Ethiopia and beyond. We love minibuses and public transportation, and we want to make it easier to use for everyone. So we developed this app. We hope you enjoy it.';
+  String aboutContent(Object appName, Object city) {
+    return 'Need to go somewhere and don\'t know which minibus or bus to take?\nThe $appName App makes it easy!\n\nAddisMap is team from Ethiopia and beyond. We love minibuses and public transportation, and we want to make it easier to use for everyone in $city. So we developed this app. We hope you enjoy it.';
   }
 
   @override
